@@ -25,24 +25,14 @@
  */
 
 /*!
- * \file  /bgx13ptype.h
+ * \file  /bgx13p.c
  * \brief
  */
 
-#ifndef __WARCOMEB_BGX13P_TYPE_H
-#define __WARCOMEB_BGX13P_TYPE_H
+#include "bgx13p.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifndef __NO_PROFILES
-#include "board.h"
-#include "firmware.h"
-#endif
-
-#ifdef __cplusplus
+void BGX13P_init (BGX13P_DeviceHandle_t dev, BGX13P_Config_t* config)
+{
+    // Initialize the device pointer
+    memset(dev, 0, sizeof (BGX13P_Device_t));
 }
-#endif
-
-#endif // __WARCOMEB_BGX13P_TYPE_H

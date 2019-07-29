@@ -32,6 +32,10 @@
 #ifndef __WARCOMEB_BGX13P_H
 #define __WARCOMEB_BGX13P_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define WARCOMEB_BGX13P_LIBRARY_VERSION_MAJOR   (0x1ul)
 #define WARCOMEB_BGX13P_LIBRARY_VERSION_MINOR   (0x0ul)
 #define WARCOMEB_BGX13P_LIBRARY_VERSION_BUG     (0x0ul)
@@ -42,5 +46,30 @@
 
 #include "bgx13ptype.h"
 
+#if !defined (WARCOMEB_BGX13P_RX_BUFFER)
+#define WARCOMEB_BGX13P_RX_BUFFER               128
+#endif
+
+/*!
+ * BGX13P device class.
+ */
+typedef struct _BGX13P_Device_t
+{
+    Uart_DeviceHandle        device;
+    Uart_Config              uartConfig;
+
+    bool                     isOn;         //!< Save the current module status
+
+    uint8_t                  rxBuffer[WARCOMEB_BGX13P_RX_BUFFER];
+    UtilityBuffer_Descriptor rxDescriptor;
+
+} BGX13P_Device_t, *BGX13P_DeviceHandle_t;
+
+void BGX13P_init (BGX13P_DeviceHandle_t dev, BGX13P_Config_t* config);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __WARCOMEB_BGX13P_H */
