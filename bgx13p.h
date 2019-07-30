@@ -58,7 +58,9 @@ typedef struct _BGX13P_Device_t
     Uart_DeviceHandle        device;
     Uart_Config              uartConfig;
 
-    bool                     isOn;         //!< Save the current module status
+    bool                     isAwake;
+
+    bool                     isConnected;
 
     uint8_t                  rxBuffer[WARCOMEB_BGX13P_RX_BUFFER];
     UtilityBuffer_Descriptor rxDescriptor;
@@ -67,6 +69,34 @@ typedef struct _BGX13P_Device_t
 
 void BGX13P_init (BGX13P_DeviceHandle_t dev, BGX13P_Config_t* config);
 
+/*!
+ * This function resets the module.
+ * There are two ways:
+ *   \li by the use of the hardware pin,
+ *   \li or via software command.
+ *
+ * \param[in]  dev:
+ * \param[in] type:
+ */
+BGX13P_Errors_t BGX13P_reset (BGX13P_DeviceHandle_t dev, BGX13P_ResetType_t type);
+
+BGX13P_Errors_t BGX13P_sleep (BGX13P_DeviceHandle_t dev);
+
+BGX13P_Errors_t BGX13P_wake (BGX13P_DeviceHandle_t dev);
+
+bool BGX13P_isAwake (BGX13P_DeviceHandle_t dev);
+
+/*!
+ * This function change the internal status of the device to awake.
+ * The function doesn't send any message or perform any operation, just update
+ * the module status.
+ */
+void BGX13P_awakeFromPin (BGX13P_DeviceHandle_t dev);
+
+/*!
+ * This function ask to the module the current firmware version.
+ */
+BGX13P_Errors_t BGX13P_getFirmwareVersion (BGX13P_DeviceHandle_t dev, char* data);
 
 #ifdef __cplusplus
 }

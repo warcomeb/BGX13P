@@ -41,6 +41,26 @@ extern "C" {
 #include "firmware.h"
 #endif
 
+/*!
+ * List of possible module errors.
+ */
+typedef enum _BGX13P_Errors
+{
+	BGX13P_ERRORS_NO_ERROR,
+	BGX13P_ERRORS_COMMAND_FAIL,
+	BGX13P_ERRORS_CONNECTION_FAIL,
+} BGX13P_Errors_t;
+
+/*!
+ * List module reset type.
+ */
+typedef enum _BGX13P_ResetType
+{
+    BLUETOOTH_RESETTYPE_HARDWARE = 0,
+    BLUETOOTH_RESETTYPE_SOFTWARE = 1,
+} BGX13P_ResetType_t;
+
+
 #ifdef __cplusplus
 }
 #endif
