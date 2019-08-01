@@ -59,13 +59,24 @@ typedef struct _BGX13P_Device_t
     Uart_Config              uartConfig;
 
     bool                     isAwake;
-
     bool                     isConnected;
 
     uint8_t                  rxBuffer[WARCOMEB_BGX13P_RX_BUFFER];
     UtilityBuffer_Descriptor rxDescriptor;
 
+    Gpio_Pins                pinReset;
+
 } BGX13P_Device_t, *BGX13P_DeviceHandle_t;
+
+/*!
+ * BGX13P configuration struct.
+ * An object of this class must be used to save all module configurations.
+ */
+typedef struct _BGX13P_Config_t
+{
+    char deviceName[16];
+
+} BGX13P_Config_t;
 
 void BGX13P_init (BGX13P_DeviceHandle_t dev, BGX13P_Config_t* config);
 

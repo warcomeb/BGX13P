@@ -31,8 +31,68 @@
 
 #include "bgx13p.h"
 
+/*!
+ * List of specific module commands.
+ */
+typedef enum _BGX13P_Command
+{
+    BGX13P_COMMAND_NONE = 0,
+    BGX13P_COMMAND_GET_VERSION,
+    BGX13P_COMMAND_REBOOT,
+} BGX13P_Command_t;
+
+static void initPins (BGX13P_DeviceHandle_t dev)
+{
+    Gpio_config(dev->pinReset, GPIO_PINS_INPUT);
+}
+
+static BGX13P_Errors_t sendCommand (BGX13P_DeviceHandle_t dev,
+                                    BGX13P_Command_t command)
+{
+
+}
+
 void BGX13P_init (BGX13P_DeviceHandle_t dev, BGX13P_Config_t* config)
 {
+    ohiassert(dev->pinReset != GPIO_PINS_NONE);
+
     // Initialize the device pointer
     memset(dev, 0, sizeof (BGX13P_Device_t));
+
+    // Init Uart peripheral
+
+    // Init pins
+
+    // Reset module: hardware reset!
+    BGX13P_reset(dev, BGX13P_RESETTYPE_HARDWARE);
+}
+
+BGX13P_Errors_t BGX13P_reset (BGX13P_DeviceHandle_t dev, BGX13P_ResetType_t type)
+{
+    BGX13P_Errors_t err = BGX13P_ERRORS_COMMAND_FAIL;
+
+    // Reset internal module status
+    dev->isAwake     = TRUE;
+    dev->isConnected = FALSE;
+
+    switch (type)
+    {
+    case BGX13P_RESETTYPE_HARDWARE:
+        // Configure reset pin
+        Gpio_config(dev->pinReset, GPIO_PINS_OUTPUT);
+        Gpio_set(dev->pinReset);
+        System_delay(2);
+        Gpio_clear(dev->pinReset);
+        System_delay(2);
+        Gpio_config(dev->pinReset,GPIO_PINS_INPUT);
+        System_delay(10);
+        break;
+    case BGX13P_RESETTYPE_SOFTWARE:
+        sendCommand(dev,BGX13P_COMMAND_REBOOT);
+        break;
+    default:
+        break;
+    }
+
+    return err;
 }
